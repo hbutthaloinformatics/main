@@ -3,11 +3,11 @@
 // Vending Machine System
 class VendingMachine {
     private $items = [
-        1 => ['name' => 'Soda', 'price' => 2.50, 'qty' => 50],
-        2 => ['name' => 'Snacks', 'price' => 1.50, 'qty' => 50],
-        3 => ['name' => 'Candy', 'price' => 0.99, 'qty' => 50],
-        4 => ['name' => 'Water', 'price' => 1.00, 'qty' => 50],
-        5 => ['name' => 'Juice', 'price' => 2.00, 'qty' => 50]
+        1 => ['name' => 'Pepsi', 'price' => 35.36, 'qty' => 50],
+        2 => ['name' => 'Sprite', 'price' => 30.55, 'qty' => 50],
+        3 => ['name' => 'Fanta', 'price' => 32.20, 'qty' => 50],
+        4 => ['name' => 'Coca-Cola', 'price' => 30.20, 'qty' => 50],
+        5 => ['name' => 'Mountain Dew', 'price' => 35.36, 'qty' => 50]
     ];
     
     private $cart = [];
