@@ -11,7 +11,7 @@ class VendingMachine {
     ];
     
     private $cart = [];
-    private $billNumber = 1000;
+    private $billNumber = 0;
     
     public function isMachineEmpty() {
         foreach ($this->items as $item) {
@@ -35,9 +35,11 @@ class VendingMachine {
         echo "Available Items:\n";
         echo "─────────────────────────────────────────\n";
         foreach ($this->items as $id => $item) {
-            $status = $item['qty'] > 0 ? "✓ IN STOCK" : "✗ OUT OF STOCK";
+            $alreadyInCart = isset($this->cart[$id]) ? $this->cart[$id] : 0;
+            $availableQty = $item['qty'] - $alreadyInCart;
+            $status = $availableQty > 0 ? "✓ IN STOCK" : "✗ OUT OF STOCK";
             printf("%-2d | %-15s | Price: $%-6.2f | Qty: %-3d | %s\n", 
-                $id, $item['name'], $item['price'], $item['qty'], $status);
+                $id, $item['name'], $item['price'], $availableQty, $status);
         }
         echo "─────────────────────────────────────────\n\n";
         
@@ -59,7 +61,10 @@ class VendingMachine {
         
         $choice = (int)$choice;
         
-        if ($this->items[$choice]['qty'] <= 0) {
+        $alreadyInCart = isset($this->cart[$choice]) ? $this->cart[$choice] : 0;
+        $availableQty = $this->items[$choice]['qty'] - $alreadyInCart;
+        
+        if ($availableQty <= 0) {
             echo "❌ This item is out of stock!\n";
             return $this->selectItem();
         }
@@ -68,12 +73,20 @@ class VendingMachine {
     }
     
     public function selectQuantity($itemId) {
-        $maxQty = $this->items[$itemId]['qty'];
-        echo "Enter quantity (1-$maxQty): ";
+        $totalStock = $this->items[$itemId]['qty'];
+        $alreadyInCart = isset($this->cart[$itemId]) ? $this->cart[$itemId] : 0;
+        $availableQty = $totalStock - $alreadyInCart;
+        
+        if ($availableQty <= 0) {
+            echo "❌ No more stock available for this item!\n";
+            return $this->selectItem();
+        }
+        
+        echo "Enter quantity (1-$availableQty): ";
         $qty = trim(fgets(STDIN));
         
-        if (!is_numeric($qty) || $qty < 1 || $qty > $maxQty) {
-            echo "❌ Invalid quantity! Please enter between 1 and $maxQty.\n";
+        if (!is_numeric($qty) || $qty < 1 || $qty > $availableQty) {
+            echo "❌ Invalid quantity! Please enter between 1 and $availableQty.\n";
             return $this->selectQuantity($itemId);
         }
         
@@ -186,7 +199,7 @@ class VendingMachine {
         echo "\n╔════════════════════════════════════════════════════════════════╗\n";
         echo "║                    TRANSACTION BILL                            ║\n";
         echo "╠════════════════════════════════════════════════════════════════╣\n";
-        printf("║ Bill #: %-52d ║\n", $this->billNumber);
+        printf("║ Bill #: %04d%-48s ║\n", $this->billNumber, "");
         printf("║ Date: %-56s ║\n", $date);
         echo "╠════════════════════════════════════════════════════════════════╣\n";
         echo "║ Items Purchased:                                               ║\n";
