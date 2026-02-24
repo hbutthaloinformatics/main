@@ -48,5 +48,3 @@ let computerSubject = new computer("Computer Science", "Ms. Johnson", "JavaScrip
 console.log(computerSubject.getName());
 console.log(computerSubject.getTeacher());
 console.log(computerSubject.getLanguage());     
-
-// Git Checking
