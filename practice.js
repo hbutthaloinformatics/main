@@ -5,12 +5,46 @@ class subject {
     }
 
     getName() {
-        $msg = " Subject name is: " + this.name;
-        return $msg;
+        let msg = " Subject name is: " + this.name;
+        return msg;
     }
 
     getTeacher() {
-        $msg = " Teacher name is: " + this.teacher;
-        return $msg;
+        let msg = " Teacher name is: " + this.teacher;
+        return msg;
     }
 }
+
+class english extends subject {
+    constructor(name, teacher, level) {
+        super(name, teacher);
+        this.level = level;
+    }
+
+    getLevel() {
+        let msg = " Level is: " + this.level;
+        return msg;
+    }
+}
+
+class computer extends subject {
+    constructor(name, teacher, language) {
+        super(name, teacher);
+        this.language = language;
+    }
+
+    getLanguage() {
+        let msg = " Programming language is: " + this.language;
+        return msg;
+    }
+}
+
+let englishSubject = new english("English", "Mr. Smith", "Advanced");
+console.log(englishSubject.getName());
+console.log(englishSubject.getTeacher());
+console.log(englishSubject.getLevel());
+
+let computerSubject = new computer("Computer Science", "Ms. Johnson", "JavaScript");
+console.log(computerSubject.getName());
+console.log(computerSubject.getTeacher());
+console.log(computerSubject.getLanguage());     
